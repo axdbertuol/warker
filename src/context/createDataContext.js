@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer } from 'react';
 
 // automating context creation
 export default (reducer, actions, initialState) => {

@@ -43,18 +43,19 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/eslint-parser": "^7.13.14",
-    "@testing-library/jest-native": "^4.0.1",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "jest-expo": "^40.0.2",
-    "react-test-renderer": "^16.13.1"
+    "react-native-testing-library": "^6.0.0",
+    "react-test-renderer": "^16.13.1",
+    "webdriverio": "^7.3.0"
   },
   "private": true,
   "jest": {
     "preset": "jest-expo",
     "setupFiles": [
-      "<rootDir>/jest/setup.js"
+      "<rootDir>/jest/test-utils.js"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"

@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
+import * as Yup from 'yup';
+
 import { Context as AuthContext } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
-import * as Yup from 'yup';
 
 /**
  * A Yup object containing the Schema required information for signing up
@@ -20,6 +21,7 @@ const SignupSchema = Yup.object().shape({
 
     .required('Required'),
 });
+
 const SignupScreen = () => {
   const { state, signup } = useContext(AuthContext);
   return (

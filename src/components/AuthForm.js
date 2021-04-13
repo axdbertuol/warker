@@ -30,10 +30,11 @@ const AuthForm = ({
   schema,
   headerTitle,
 }) => {
+  const onSubmit = (values) => onSubmitForm(values);
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
-      onSubmit={(values) => onSubmitForm(values)}
+      onSubmit={onSubmit}
       validationSchema={schema}
     >
       {({
@@ -56,6 +57,7 @@ const AuthForm = ({
             )}
             <Spacer margin={20} />
             <TextInput
+              testID="email-input"
               label="Email"
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
@@ -69,6 +71,7 @@ const AuthForm = ({
               *{errors.email}
             </HelperText>
             <TextInput
+              testID="pass-input"
               label="Password"
               value={values.password}
               onChangeText={handleChange('password')}
@@ -90,7 +93,9 @@ const AuthForm = ({
               <Caption style={styles.errorMessage}>{errorMessage}</Caption>
             )}
           </Spacer>
-          <Button onPress={handleSubmit}>{submitButtonText}</Button>
+          <Button testID="submit-button" onPress={handleSubmit}>
+            {submitButtonText}
+          </Button>
         </>
       )}
     </Formik>

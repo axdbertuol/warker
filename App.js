@@ -80,16 +80,6 @@ const MainFlow = () => {
         component={HomeScreen}
         options={{ title: 'Explore' }}
       />
-      {/* <Drawer.Screen
-        name="ResultsFlow"
-        component={ResultsFlow}
-        options={{ title: 'Listagem' }}
-      /> */}
-      {/* <Drawer.Screen
-        name="Account"
-        component={AccountScreen}
-        options={{ title: 'Conta' }}
-      /> */}
     </Drawer.Navigator>
   );
 };
@@ -122,17 +112,7 @@ const RootFlow = () => {
  * A composition of local providers
  */
 const LocalProviders = ({ children }) => (
-  // <LocationProvider>
-  //   <ModalProvider>
-  //     <SearchProvider>
-  //       <PostosProvider>
-  //         <CidadesProvider>
   <AuthProvider>{children}</AuthProvider>
-  //         </CidadesProvider>
-  //       </PostosProvider>
-  //     </SearchProvider>
-  //   </ModalProvider>
-  // </LocationProvider>
 );
 /**
  * A composition of third-party providers

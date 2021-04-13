@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  * @const {AxiosInstance}
  * */
 const axiosInstance = axios.create({
-  baseURL: 'http://bdba05c44af1.ngrok.io', // change every 2 hours
+  baseURL: 'http://f80452ea8aaa.ngrok.io', // change every 2 hours
   timeout: 5000,
 });
 
