@@ -61,18 +61,20 @@ const setDestination = (dispatch) => (destination) => {
  * @param {Number} duration - A number representing the ETA for the destination from the currentLocation
  */
 const setDuration = (dispatch) => (duration) => {
-  let duration_obj = convert(duration).from('min').toBest();
-
-  dispatch({ type: 'set_duration', payload: { ...duration_obj } });
+  console.log(duration);
+  // let duration_obj = convert(duration).from('min').toBest();
+  // console.log(duration_obj);
+  dispatch({ type: 'set_duration', payload: { ...duration } });
 };
 /**
  * Dispatch distance for destination
  * @param {Number} distance - A number representing the distance between the destination and currentLocation
  */
 const setDistance = (dispatch) => (distance) => {
-  let distance_obj = convert(distance).from('km').toBest();
+  // let distance_obj = convert(distance).from('km').toBest();
+  console.log(distance);
   //   distance_obj.val = distance % 1 != 0 ? distance.val.toFixed(1) : distance.val;
-  dispatch({ type: 'set_distance', payload: { ...distance_obj } });
+  dispatch({ type: 'set_distance', payload: { ...distance } });
 };
 /**
  * Dispatch set recording = true

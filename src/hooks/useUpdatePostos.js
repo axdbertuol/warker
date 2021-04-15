@@ -1,5 +1,6 @@
 /**
- * This is a hook function that
+ * This is a hook function that is used to update the state of DataContext.
+ * It needs a location with coordinates and a connection to the server.
  */
 import { useState, useEffect, useContext } from 'react';
 

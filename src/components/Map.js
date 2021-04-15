@@ -11,6 +11,12 @@ import { GOOGLE_MAPS_KEY } from '../utils/constants';
 import { mapRef, isReadyRef } from '../mapRef';
 const { width, height } = Dimensions.get('window');
 
+/**
+ * A map view that can draw directions to the destination
+ * contained in LocationContext. It also shows all Postos
+ * in the map with a black circle.
+ * @param {Object} style - A StyleSheet property for the map
+ */
 const Map = ({ style }) => {
   const {
     state: { currentLocation, destination },
