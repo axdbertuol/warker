@@ -4,7 +4,6 @@ import { ActivityIndicator } from 'react-native-paper';
 
 /**
  * A blank screen that will try to log in user with token
- * @returns {ActivityIndicator} - A loading animation
  */
 const ResolveAuthScreen = () => {
   const { tryLocalSignin } = useContext(AuthContext);

@@ -56,7 +56,7 @@ const clearErrorMessage = (dispatch) => () => {
 };
 
 /**
- * Dispatch to add error message to state
+ * Dispatch error message to state
  *
  * @param {string} message - The error message to store
  */

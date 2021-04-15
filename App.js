@@ -14,11 +14,11 @@ import {
   Provider as AuthProvider,
   Context as AuthContext,
 } from './src/context/AuthContext';
-// import { Provider as LocationProvider } from './src/context/LocationContext';
-// import { Provider as PostosProvider } from './src/context/PostosContext';
+import { Provider as LocationProvider } from './src/context/LocationContext';
+import { Provider as DataProvider } from './src/context/DataContext';
 // import { Provider as ModalProvider } from './src/context/ModalContext';
 // import { Provider as CidadesProvider } from './src/context/CidadesContext';
-// import { Provider as SearchProvider } from './src/context/SearchContext';
+import { Provider as SearchProvider } from './src/context/SearchContext';
 import { navigationRef, isReadyRef } from './src/navigationRef';
 import { Provider as PaperProvider } from 'react-native-paper';
 
@@ -112,7 +112,13 @@ const RootFlow = () => {
  * A composition of local providers
  */
 const LocalProviders = ({ children }) => (
-  <AuthProvider>{children}</AuthProvider>
+  <AuthProvider>
+    <LocationProvider>
+      <SearchProvider>
+        <DataProvider>{children}</DataProvider>
+      </SearchProvider>
+    </LocationProvider>
+  </AuthProvider>
 );
 /**
  * A composition of third-party providers
