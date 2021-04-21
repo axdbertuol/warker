@@ -6,6 +6,7 @@ import { useState, useEffect, useContext } from 'react';
 
 import { Context as LocationContext } from '../context/LocationContext';
 import { Context as DataContext } from '../context/DataContext';
+import { Context as SearchContext } from '../context/SearchContext';
 
 export default () => {
   const {
@@ -16,13 +17,20 @@ export default () => {
     state: { postos },
     fetchPostosFromDB,
   } = useContext(DataContext);
+
+  const {
+    state: { results },
+    getNearbyPostos,
+  } = useContext(SearchContext);
+
   const [err, setErr] = useState('');
   const [postosDidSet, setPostosDidSet] = useState(false);
 
   const updatePostos = () => {
+    getNearbyPostos('', currentLocation);
     fetchPostosFromDB();
     // getNearbyPostos from google
-    // console.log('postos', JSON.stringify(postos));
+    // if (hasSearched) console.log('search results', JSON.stringify(results));
     // if (postos && postos.length > 0) {
     //   setPostosDidSet(true);
     // }
@@ -30,8 +38,6 @@ export default () => {
 
   useEffect(() => {
     if (currentLocation) updatePostos();
-    // console.log('postosDidSet', postosDidSet);
-    // console.log('currentLocation', currentLocation);
   }, [currentLocation]);
 
   return [err, postosDidSet];

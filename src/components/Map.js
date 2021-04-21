@@ -1,12 +1,13 @@
 import React, { useContext, useCallback } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 import MapView, { Circle, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import convert from 'convert-units';
 
 import { Context as LocationContext } from '../context/LocationContext';
 import { Context as DataContext } from '../context/DataContext';
+import { Context as SearchContext } from '../context/SearchContext';
 import { GOOGLE_MAPS_KEY } from '../utils/constants';
 import { mapRef, isReadyRef } from '../mapRef';
 const { width, height } = Dimensions.get('window');
@@ -27,6 +28,10 @@ const Map = ({ style }) => {
   const {
     state: { postos },
   } = useContext(DataContext);
+
+  const {
+    state: { results },
+  } = useContext(SearchContext);
 
   React.useEffect(() => {
     return () => {
@@ -64,9 +69,20 @@ const Map = ({ style }) => {
             />
           );
         })}
+      {results?.length > 0 &&
+        results.map((result, index) => {
+          return (
+            <Marker
+              key={index}
+              coordinate={result.coords}
+              pinColor={Colors.greenA100}
+              // opacity={0.7}
+              title={result.nome}
+            />
+          );
+        })}
       {destination ? (
         <>
-          <Marker coordinate={destination.coords} />
           <MapViewDirections
             origin={currentLocation.coords}
             destination={{ ...destination.coords }}

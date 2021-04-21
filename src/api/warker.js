@@ -1,11 +1,11 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 /**
- * Creates a config instance to connect with the warker API
+ * Creates a config instance to connect with the warker server
  * @const {AxiosInstance}
  * */
 const axiosInstance = axios.create({
-  baseURL: 'http://cc8371531d58.ngrok.io', // change every 2 hours
+  baseURL: 'http://567ecfd29165.ngrok.io', // change every 2 hours
   timeout: 5000,
 });
 

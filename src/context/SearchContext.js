@@ -4,6 +4,7 @@
 
 import createDataContext from './createDataContext';
 import PropTypes from 'prop-types';
+import warkerApi from '../api/warker';
 
 /**
  * The Search reducer
@@ -38,6 +39,33 @@ const searchReducer = (state, action) => {
       return { query: '', cidade: '', filters: [], results: [] };
     default:
       return state;
+  }
+};
+
+/**
+ * Get postos from the server.
+ * Server will get it from google, parse/add objects and send them back
+ * @async
+ * @param {string} query - The query to send to the server.
+ * @param {Object} currentLocation - An object with a coords object containing
+ * latitude and longitude of the user's location
+ */
+const getNearbyPostos = (dispatch) => async (query, currentLocation) => {
+  try {
+    const { coords } = currentLocation;
+    const response = await warkerApi.get('/api/nearbysearch', {
+      params: { query, lat: coords.latitude, lng: coords.longitude },
+    });
+
+    console.log(response.data.result);
+    dispatch({
+      type: 'set_search_results',
+      payload: response.data.result,
+    });
+
+    return Promise.resolve();
+  } catch (error) {
+    console.log('getNearbyPostos ' + error.message);
   }
 };
 
@@ -102,6 +130,13 @@ removeFilter.propTypes = {
 };
 export const { Context, Provider } = createDataContext(
   searchReducer,
-  { setFilters, setQuery, addFilter, removeFilter, setSearchResults },
+  {
+    setFilters,
+    setQuery,
+    addFilter,
+    removeFilter,
+    setSearchResults,
+    getNearbyPostos,
+  },
   { query: '', cidade: '', filters: [], results: [] } // initial state
 );

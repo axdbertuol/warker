@@ -28,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
     setDestination,
   } = useContext(LocationContext);
   const {
-    state: { query },
+    state: { query, results },
     setQuery,
   } = useContext(SearchContext);
 
@@ -44,12 +44,12 @@ const HomeScreen = ({ navigation }) => {
   const [errUpdatePostos, postosDidSet] = useUpdatePostos();
 
   useEffect(() => {
-    if (estouComSede && !!postos) {
+    if (estouComSede && !!results) {
       setDestination({
         ...destination,
         coords: {
-          latitude: postos[0].coords.latitude,
-          longitude: postos[0].coords.longitude,
+          latitude: results[0].coords.latitude,
+          longitude: results[0].coords.longitude,
         },
       });
     }
