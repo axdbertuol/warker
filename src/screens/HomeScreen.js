@@ -17,6 +17,7 @@ import useLocation from '../hooks/useLocation';
 import useUpdatePostos from '../hooks/useUpdatePostos';
 import Map from '../components/Map';
 import PostoSmallDetail from '../components/PostoSmallDetail';
+import { mapRef } from '../mapRef';
 
 const { height, width } = Dimensions.get('window');
 
@@ -33,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
   } = useContext(SearchContext);
 
   const {
-    state: { nearestPostos, postos },
+    state: { postos, nearestPostos },
   } = useContext(DataContext);
 
   // LOCAL STATE
@@ -44,12 +45,12 @@ const HomeScreen = ({ navigation }) => {
   const [errUpdatePostos, postosDidSet] = useUpdatePostos();
 
   useEffect(() => {
-    if (estouComSede && !!results) {
+    if (estouComSede && !!nearestPostos) {
       setDestination({
         ...destination,
         coords: {
-          latitude: results[0].coords.latitude,
-          longitude: results[0].coords.longitude,
+          latitude: nearestPostos[0].coords.latitude,
+          longitude: nearestPostos[0].coords.longitude,
         },
       });
     }
@@ -57,17 +58,16 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {currentLocation ? (
+      {currentLocation && !!postos && !!nearestPostos ? (
         <>
-          <Map style={styles.backgroundMap} />
           <Searchbar
-            icon={'menu'}
+            icon={'filter-variant'}
             style={styles.searchbar}
             inputStyle={{ fontSize: 12 }}
             placeholder="Procure pelo nome do posto"
             value={query}
             onChangeText={(q) => setQuery(q)}
-            onIconPress={() => navigation.toggleDrawer()}
+            // onIconPress={() => navigation.toggleDrawer()} TODO
             returnKeyType="search"
             onSubmitEditing={({ nativeEvent: { text } }) => {
               if (text) {
@@ -78,6 +78,7 @@ const HomeScreen = ({ navigation }) => {
               }
             }}
           />
+          <Map style={styles.backgroundMap} />
           <IconButton
             style={styles.iconButton}
             size={22}
@@ -86,19 +87,30 @@ const HomeScreen = ({ navigation }) => {
             color={Colors.black500}
             // onPress={() => handleModal(true)}
           />
+          {/* <IconButton
+            style={[styles.iconButton, { right: 50 }]}
+            size={22}
+            animated={true}
+            icon="target"
+            color={Colors.black500}
+            onPress={() => {
+              console.log(mapRef.current);
+              mapRef.current._onMapReady();
+            }}
+          /> */}
 
-          {!!destination && !!postos && estouComSede && (
+          {!!destination && !!nearestPostos && estouComSede && (
             <Surface style={styles.surface}>
               <TouchableOpacity>
                 <PostoSmallDetail
-                  posto={postos[0]}
+                  posto={nearestPostos[0]}
                   setEstouComSede={setEstouComSede}
                 />
               </TouchableOpacity>
             </Surface>
           )}
 
-          {!estouComSede && (
+          {/* {!estouComSede && (
             <Surface style={styles.surfaceButton}>
               <Button
                 // disabled={!currentLocation}
@@ -109,7 +121,7 @@ const HomeScreen = ({ navigation }) => {
                 Estou com sede!
               </Button>
             </Surface>
-          )}
+          )} */}
         </>
       ) : (
         <ActivityIndicator animating={true} />
@@ -120,23 +132,27 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 10,
   },
   searchbar: {
-    position: 'absolute',
-    top: 30,
-    width: '90%',
+    // position: 'absolute',
+    // top: 30,
+    // width: '90%',
     alignSelf: 'center',
-    elevation: 3,
-    zIndex: 3,
+    // paddingTop: 40,
+    // elevation: 3,
+    // zIndex: 3,
   },
   iconButton: {
     position: 'absolute',
-    top: 74,
-    left: 15,
+    top: 140,
+    right: 15,
     zIndex: 4,
     backgroundColor: Colors.grey200,
   },
   backgroundMap: {
+    flex: 1,
+    // paddingBottom: 1,
     height: height,
     width: width,
   },

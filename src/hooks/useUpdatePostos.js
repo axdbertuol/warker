@@ -15,21 +15,21 @@ export default () => {
 
   const {
     state: { postos },
+    updateNearbyPostos,
     fetchPostosFromDB,
   } = useContext(DataContext);
 
-  const {
-    state: { results },
-    getNearbyPostos,
-  } = useContext(SearchContext);
+  // const {
+  //   state: { results },
+  // } = useContext(SearchContext);
 
   const [err, setErr] = useState('');
   const [postosDidSet, setPostosDidSet] = useState(false);
 
   const updatePostos = () => {
-    getNearbyPostos('', currentLocation);
+    updateNearbyPostos(currentLocation);
     fetchPostosFromDB();
-    // getNearbyPostos from google
+    // updateNearbyPostos from google
     // if (hasSearched) console.log('search results', JSON.stringify(results));
     // if (postos && postos.length > 0) {
     //   setPostosDidSet(true);

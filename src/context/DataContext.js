@@ -104,6 +104,28 @@ addPostos.propTypes = {
 };
 
 /**
+ * Get postos from the server.
+ * Server will get it from google, parse/add objects and send them back
+ * @async
+ * @param {Object} currentLocation - An object with a coords object containing
+ * latitude and longitude of the user's location
+ */
+const updateNearbyPostos = (dispatch) => async (currentLocation) => {
+  try {
+    const { coords } = currentLocation;
+    const response = await warkerApi.get('/api/nearbysearch', {
+      params: { query: '', lat: coords.latitude, lng: coords.longitude },
+    });
+
+    dispatch({
+      type: 'set_nearest',
+      payload: response.data.result,
+    });
+  } catch (error) {
+    console.log('getNearbyPostos ' + error.message);
+  }
+};
+/**
  * Fetch postos data from DB and add them to the state postos
  * @async
  * @param {Array} postosIds - Array of postos ids to fetch *optional
@@ -159,6 +181,7 @@ export const { Context, Provider } = createDataContext(
     setNearest,
     resetAll,
     fetchPostosFromDB,
+    updateNearbyPostos,
     // sendPostosToDB,
     // parseGoogleApiDataToJS,
   },

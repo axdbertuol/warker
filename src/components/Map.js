@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import MapView, { Circle, Marker } from 'react-native-maps';
@@ -26,13 +26,20 @@ const Map = ({ style }) => {
   } = useContext(LocationContext);
 
   const {
-    state: { postos },
+    state: { postos, nearestPostos },
   } = useContext(DataContext);
 
   const {
     state: { results },
   } = useContext(SearchContext);
 
+  const [marginBottom, setMarginBottom] = useState(1);
+
+  const _onMapReady = () => {
+    console.log('oi');
+    isReadyRef.current = true;
+    setMarginBottom(0);
+  };
   React.useEffect(() => {
     return () => {
       isReadyRef.current = false;
@@ -41,14 +48,19 @@ const Map = ({ style }) => {
 
   return (
     <MapView
+      showsUserLocation
+      provider={MapView.PROVIDER_GOOGLE}
       ref={(curr) => (mapRef.current = curr)}
       loadingEnabled={true}
-      style={style}
+      style={{ flex: 1, marginBottom: marginBottom }}
       initialRegion={{
         ...currentLocation.coords,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       }}
+      showsMyLocationButton={true}
+      onMapReady={_onMapReady}
+      toolbarEnabled={false}
     >
       <Circle
         center={currentLocation.coords}
@@ -69,20 +81,21 @@ const Map = ({ style }) => {
             />
           );
         })}
-      {results?.length > 0 &&
-        results.map((result, index) => {
+      {nearestPostos?.length > 0 &&
+        nearestPostos.map((result, index) => {
           return (
             <Marker
               key={index}
               coordinate={result.coords}
-              pinColor={Colors.greenA100}
-              // opacity={0.7}
+              pinColor={Colors.grey800}
+              opacity={0.3}
               title={result.nome}
             />
           );
         })}
       {destination ? (
         <>
+          <Marker coordinate={destination.coords} pinColor={Colors.greenA100} />
           <MapViewDirections
             origin={currentLocation.coords}
             destination={{ ...destination.coords }}

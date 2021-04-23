@@ -62,8 +62,6 @@ const getNearbyPostos = (dispatch) => async (query, currentLocation) => {
       type: 'set_search_results',
       payload: response.data.result,
     });
-
-    return Promise.resolve();
   } catch (error) {
     console.log('getNearbyPostos ' + error.message);
   }
