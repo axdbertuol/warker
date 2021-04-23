@@ -79,25 +79,6 @@ const HomeScreen = ({ navigation }) => {
             }}
           />
           <Map style={styles.backgroundMap} />
-          <IconButton
-            style={styles.iconButton}
-            size={22}
-            animated={true}
-            icon="filter-variant"
-            color={Colors.black500}
-            // onPress={() => handleModal(true)}
-          />
-          {/* <IconButton
-            style={[styles.iconButton, { right: 50 }]}
-            size={22}
-            animated={true}
-            icon="target"
-            color={Colors.black500}
-            onPress={() => {
-              console.log(mapRef.current);
-              mapRef.current._onMapReady();
-            }}
-          /> */}
 
           {!!destination && !!nearestPostos && estouComSede && (
             <Surface style={styles.surface}>
@@ -110,7 +91,7 @@ const HomeScreen = ({ navigation }) => {
             </Surface>
           )}
 
-          {/* {!estouComSede && (
+          {!estouComSede && (
             <Surface style={styles.surfaceButton}>
               <Button
                 // disabled={!currentLocation}
@@ -121,7 +102,7 @@ const HomeScreen = ({ navigation }) => {
                 Estou com sede!
               </Button>
             </Surface>
-          )} */}
+          )}
         </>
       ) : (
         <ActivityIndicator animating={true} />

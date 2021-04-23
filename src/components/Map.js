@@ -115,7 +115,7 @@ const Map = ({ style }) => {
               mapRef.current.fitToCoordinates(result.coordinates, {
                 edgePadding: {
                   right: width / 20,
-                  bottom: height + 20,
+                  bottom: height / 5,
                   left: width / 20,
                   top: height / 20,
                 },
