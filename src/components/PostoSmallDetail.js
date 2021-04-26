@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useContext } from 'react';
 import { StyleSheet, Dimensions, View } from 'react-native';
-import { Button, Card, Divider, Chip } from 'react-native-paper';
+import { Button, Card, Divider, Chip, Colors } from 'react-native-paper';
 import { Context as LocationContext } from '../context/LocationContext';
 import Spacer from './Spacer';
+import FuelChip from './FuelChip';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,6 +20,7 @@ const PostoSmallDetail = ({ posto, setEstouComSede }) => {
     state: { destination },
     resetDestination,
   } = useContext(LocationContext);
+  console.log('posto fuelTypes', posto.fuelTypes);
 
   return (
     <>
@@ -60,6 +62,11 @@ const PostoSmallDetail = ({ posto, setEstouComSede }) => {
               >
                 {posto.reservatorio}%
               </Chip>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <FuelChip posto={posto} fuel={'diesel'} />
+              <FuelChip posto={posto} fuel={'gnv'} />
+              <FuelChip posto={posto} fuel={'etanol'} />
             </View>
           </Card.Content>
         ) : null}

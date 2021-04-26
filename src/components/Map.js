@@ -36,7 +36,6 @@ const Map = ({ style }) => {
   const [marginBottom, setMarginBottom] = useState(1);
 
   const _onMapReady = () => {
-    console.log('oi');
     isReadyRef.current = true;
     setMarginBottom(0);
   };
@@ -55,8 +54,8 @@ const Map = ({ style }) => {
       style={{ flex: 1, marginBottom: marginBottom }}
       initialRegion={{
         ...currentLocation.coords,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
+        latitudeDelta: 0.07,
+        longitudeDelta: 0.07,
       }}
       showsMyLocationButton={true}
       onMapReady={_onMapReady}
@@ -107,7 +106,6 @@ const Map = ({ style }) => {
               let duration = convert(result.duration).from('min').toBest();
               distance.val =
                 distance % 1 != 0 ? distance.val.toFixed(1) : distance.val;
-              // duration = duration % 1 != 0 ? duration.toFixed(1) : duration;
               setDuration(duration);
               setDistance(distance);
 
@@ -115,7 +113,7 @@ const Map = ({ style }) => {
               mapRef.current.fitToCoordinates(result.coordinates, {
                 edgePadding: {
                   right: width / 20,
-                  bottom: height / 5,
+                  bottom: height + 20,
                   left: width / 20,
                   top: height / 20,
                 },
