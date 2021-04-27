@@ -2,16 +2,16 @@ import React, { useContext } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 // import AccountScreen from './src/screens/AccountScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import FilterScreen from './src/screens/FilterScreen';
 // import ResultListScreen from './src/screens/ResultListScreen';
 // import ResultDetailScreen from './src/screens/ResultDetailScreen';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
-import HomeBar from './src/components/HomeBar';
 import {
   Provider as AuthProvider,
   Context as AuthContext,
@@ -23,9 +23,11 @@ import { Provider as DataProvider } from './src/context/DataContext';
 import { Provider as SearchProvider } from './src/context/SearchContext';
 import { navigationRef, isReadyRef } from './src/navigationRef';
 import { Provider as PaperProvider, Button } from 'react-native-paper';
+import ExploreHeader from './src/components/ExploreHeader';
 
-const Tab = createMaterialBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 const AuthStack = createStackNavigator();
+const ExplorarStack = createStackNavigator();
 const ResultStack = createStackNavigator();
 
 /**
@@ -43,6 +45,34 @@ const ResultStack = createStackNavigator();
 //     </ResultStack.Navigator>
 //   );
 // };
+
+const explorarHeader = ({ scene, previous, navigation }) => {
+  const { options } = scene.descriptor;
+  const title =
+    options.headerTitle !== undefined
+      ? options.headerTitle
+      : options.title !== undefined
+      ? options.title
+      : scene.route.name;
+
+  return (
+    <ExploreHeader
+      title={title}
+      backButton={title === 'Explorar' ? false : true}
+      filter={title === 'Explorar' ? true : false}
+      navigation={navigation}
+    />
+  );
+};
+
+const ExplorarFlow = () => {
+  return (
+    <ExplorarStack.Navigator screenOptions={{ header: explorarHeader }}>
+      <ExplorarStack.Screen name="Explorar" component={HomeScreen} />
+      <ExplorarStack.Screen name="Filtros" component={FilterScreen} />
+    </ExplorarStack.Navigator>
+  );
+};
 
 /**
  * The authentication flow of the app.
@@ -70,53 +100,15 @@ const AuthFlow = () => {
   );
 };
 
-const showIcon = (iconName) => {
-  return (
-    <>
-      <Button icon={iconName}></Button>
-    </>
-  );
-};
 /**
  * The main flow of the app.
  * Should appear automatically if user is logged in or after signing up.
  */
 const MainFlow = () => {
   return (
-    <Tab.Navigator labeled={true}>
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarLabel: 'Map',
-          tabBarIcon: () => showIcon('map'),
-        }}
-      />
-      <Tab.Screen
-        name="x"
-        component={SigninScreen}
-        options={{
-          tabBarLabel: 'Map',
-          tabBarIcon: () => showIcon('map'),
-        }}
-      />
-      <Tab.Screen
-        name="xy"
-        component={SigninScreen}
-        options={{
-          tabBarLabel: 'Map',
-          tabBarIcon: () => showIcon('map'),
-        }}
-      />
-      <Tab.Screen
-        name="xa"
-        component={SigninScreen}
-        options={{
-          tabBarLabel: 'Map',
-          tabBarIcon: () => showIcon('map'),
-        }}
-      />
-    </Tab.Navigator>
+    <Drawer.Navigator>
+      <Drawer.Screen name="Explorar" component={ExplorarFlow} />
+    </Drawer.Navigator>
   );
 };
 

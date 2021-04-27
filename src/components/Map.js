@@ -33,12 +33,12 @@ const Map = ({ style }) => {
     state: { results },
   } = useContext(SearchContext);
 
-  const [marginBottom, setMarginBottom] = useState(1);
+  // const [marginBottom, setMarginBottom] = useState(1);
 
-  const _onMapReady = () => {
-    isReadyRef.current = true;
-    setMarginBottom(0);
-  };
+  // const _onMapReady = () => {
+  //   isReadyRef.current = true;
+  //   setMarginBottom(0);
+  // };
   React.useEffect(() => {
     return () => {
       isReadyRef.current = false;
@@ -51,14 +51,13 @@ const Map = ({ style }) => {
       provider={MapView.PROVIDER_GOOGLE}
       ref={(curr) => (mapRef.current = curr)}
       loadingEnabled={true}
-      style={{ flex: 1, marginBottom: marginBottom }}
+      style={{ height: height, width: width }}
       initialRegion={{
         ...currentLocation.coords,
         latitudeDelta: 0.07,
         longitudeDelta: 0.07,
       }}
       showsMyLocationButton={true}
-      onMapReady={_onMapReady}
       toolbarEnabled={false}
     >
       <Circle
@@ -80,7 +79,7 @@ const Map = ({ style }) => {
             />
           );
         })}
-      {nearestPostos?.length > 0 &&
+      {/* {nearestPostos?.length > 0 &&
         nearestPostos.map((result, index) => {
           return (
             <Marker
@@ -91,7 +90,7 @@ const Map = ({ style }) => {
               title={result.nome}
             />
           );
-        })}
+        })} */}
       {destination ? (
         <>
           <Marker coordinate={destination.coords} pinColor={Colors.greenA100} />

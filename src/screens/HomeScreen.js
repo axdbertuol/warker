@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, TouchableOpacity, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -16,8 +16,8 @@ import { Context as DataContext } from '../context/DataContext';
 import useLocation from '../hooks/useLocation';
 import useUpdatePostos from '../hooks/useUpdatePostos';
 import Map from '../components/Map';
+import SearchbarFilter from '../components/SearchbarFilter';
 import PostoSmallDetail from '../components/PostoSmallDetail';
-import { mapRef } from '../mapRef';
 
 const { height, width } = Dimensions.get('window');
 
@@ -57,28 +57,11 @@ const HomeScreen = ({ navigation }) => {
   }, [estouComSede]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {currentLocation && !!postos && !!nearestPostos ? (
         <>
-          <Searchbar
-            icon={'filter-variant'}
-            style={styles.searchbar}
-            inputStyle={{ fontSize: 12 }}
-            placeholder="Procure pelo nome do posto"
-            value={query}
-            onChangeText={(q) => setQuery(q)}
-            // onIconPress={() => navigation.toggleDrawer()} TODO
-            returnKeyType="search"
-            onSubmitEditing={({ nativeEvent: { text } }) => {
-              if (text) {
-                navigation.navigate('ResultListNavigator', {
-                  screen: 'ResultList',
-                  params: { searchFromHome: true },
-                });
-              }
-            }}
-          />
           <Map style={styles.backgroundMap} />
+          <SearchbarFilter />
 
           {!!destination && !!nearestPostos && estouComSede && (
             <Surface style={styles.surface}>
@@ -107,22 +90,21 @@ const HomeScreen = ({ navigation }) => {
       ) : (
         <ActivityIndicator animating={true} />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 10,
   },
   searchbar: {
-    // position: 'absolute',
-    // top: 30,
-    // width: '90%',
+    position: 'absolute',
+    top: 30,
+    width: '90%',
     alignSelf: 'center',
     // paddingTop: 40,
-    // elevation: 3,
-    // zIndex: 3,
+    elevation: 3,
+    zIndex: 3,
   },
   iconButton: {
     position: 'absolute',
@@ -132,8 +114,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.grey200,
   },
   backgroundMap: {
-    flex: 1,
-    // paddingBottom: 1,
     height: height,
     width: width,
   },

@@ -20,7 +20,6 @@ const PostoSmallDetail = ({ posto, setEstouComSede }) => {
     state: { destination },
     resetDestination,
   } = useContext(LocationContext);
-  console.log('posto fuelTypes', posto.fuelTypes);
 
   return (
     <>
