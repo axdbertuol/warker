@@ -12,24 +12,34 @@ import Slider from '@react-native-community/slider';
 import { Context as SearchContext } from '../context/SearchContext';
 import CheckboxFilter from '../components/CheckboxFilter';
 import Spacer from '../components/Spacer';
+import useSearchPostos from '../hooks/useSearchPostos';
 /**
- * A blank screen that will try to log in user with token
+ * This screen will show the filters available for searching postos.
+ *
  */
 const FilterScreen = ({ navigation }) => {
-  const [distance, setDistance] = useState(10);
+  // const [didClick, setDidClick] = useState(false);
   const {
-    state: { filters, results },
-    addFilter,
-    removeFilter,
+    state: { filters, results, radius, query },
+    setRadius,
+    setDidSearch,
+    setQuery,
   } = useContext(SearchContext);
-  useEffect(() => {
-    console.log('Filters ', filters);
-  }, [filters]);
+  // useEffect(() => {
+  //   console.log('Filters ', filters);
+  //   console.log('Radius ', radius);
+  // }, [filters]);
+  useSearchPostos();
 
   return (
     <View style={styles.container}>
       <Paragraph>Pesquise por posto</Paragraph>
-      <Searchbar placeholder="Pesquisar" style={{ height: 30 }} />
+      <Searchbar
+        placeholder="Pesquisar"
+        style={{ height: 30 }}
+        onChangeText={(q) => setQuery(q)}
+        value={query}
+      />
       <Divider />
       <Spacer margin={5} />
       <Paragraph>Combustível</Paragraph>
@@ -55,15 +65,27 @@ const FilterScreen = ({ navigation }) => {
         style={{ width: 300, height: 20 }}
         minimumValue={0}
         maximumValue={15}
-        value={10}
-        onValueChange={(value) => setDistance(value)}
-        onSlidingStart={(value) => removeFilter('dist_' + value)}
-        onSlidingComplete={(value) => addFilter('dist_' + value)}
+        value={radius}
+        // onValueChange={(value) => setDistance(value)}
+        // onSlidingStart={(value) => removeFilter('dist_' + value)}
+        onSlidingComplete={(value) => setRadius(value)}
         step={1}
         minimumTrackTintColor="#000000"
         maximumTrackTintColor="#FFFFFF"
       />
-      <Button mode="contained" onPress={() => navigation.navigate('Explorar')}>
+      <Caption>{radius}km</Caption>
+      <Spacer margin={5} />
+
+      <Button
+        mode="contained"
+        onPress={() => {
+          // search and store in results
+          // setDidClick(true);
+          setDidSearch(true);
+          // console.log('Results:', results);
+          // navigation.navigate('ResultsFlow');
+        }}
+      >
         Ver Resultados
       </Button>
     </View>
@@ -72,7 +94,7 @@ const FilterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
   },
   sliderTextContainer: {
     // flex: 1,

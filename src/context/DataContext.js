@@ -74,7 +74,6 @@ const dataReducer = (state, action) => {
           rating: [],
         },
         nearestPostos: [],
-        searchResults: [],
       };
     case 'reset_filter':
       return {
@@ -114,7 +113,12 @@ const updateNearbyPostos = (dispatch) => async (currentLocation) => {
   try {
     const { coords } = currentLocation;
     const response = await warkerApi.get('/api/nearbysearch', {
-      params: { query: '', lat: coords.latitude, lng: coords.longitude },
+      params: {
+        query: '',
+        lat: coords.latitude,
+        lng: coords.longitude,
+        radius: 10,
+      },
     });
 
     dispatch({

@@ -14,15 +14,13 @@ const SearchbarFilter = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      {/* <IconButton icon={'filter-variant'} size={20} style={styles.filter} /> */}
       <Searchbar
-        icon={'menu'}
-        //   icon={'filter-variant'}
+        icon={'filter-variant'}
         inputStyle={{ fontSize: 12 }}
         placeholder="Procure pelo nome do posto"
         value={query}
         onChangeText={(q) => setQuery(q)}
-        onIconPress={() => navigation.toggleDrawer()}
+        onIconPress={() => navigation.navigate('Filtros')}
         returnKeyType="search"
         onSubmitEditing={({ nativeEvent: { text } }) => {
           //   if (text) {

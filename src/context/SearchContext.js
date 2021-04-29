@@ -35,8 +35,18 @@ const searchReducer = (state, action) => {
       };
     case 'set_filters':
       return { ...state, filters: [...action.payload] };
+    case 'set_radius':
+      return { ...state, radius: action.payload };
+    case 'set_didsearch':
+      return { ...state, didSearch: action.payload };
     case 'reset':
-      return { query: '', cidade: '', filters: [], results: [] };
+      return {
+        query: '',
+        cidade: '',
+        filters: [],
+        results: [],
+        filteredResults: [],
+      };
     default:
       return state;
   }
@@ -50,20 +60,31 @@ const searchReducer = (state, action) => {
  * @param {Object} currentLocation - An object with a coords object containing
  * latitude and longitude of the user's location
  */
-const getNearbyPostos = (dispatch) => async (query, currentLocation) => {
+const searchNearbyPostos = (dispatch) => async (
+  query,
+  currentLocation,
+  radius,
+  filters
+) => {
   try {
     const { coords } = currentLocation;
     const response = await warkerApi.get('/api/nearbysearch', {
-      params: { query, lat: coords.latitude, lng: coords.longitude },
+      params: {
+        query,
+        lat: coords.latitude,
+        lng: coords.longitude,
+        radius,
+        filters,
+      },
     });
 
-    console.log(response.data.result);
+    // console.log(response.data.result);
     dispatch({
       type: 'set_search_results',
       payload: response.data.result,
     });
   } catch (error) {
-    console.log('getNearbyPostos ' + error.message);
+    console.log('searchNearbyPostos ' + error.message);
   }
 };
 
@@ -123,6 +144,14 @@ addFilter.propTypes = {
 const removeFilter = (dispatch) => (filter) => {
   dispatch({ type: 'remove_filter', payload: filter });
 };
+
+const setRadius = (dispatch) => (radius) => {
+  dispatch({ type: 'set_radius', payload: radius });
+};
+const setDidSearch = (dispatch) => (didSearch) => {
+  dispatch({ type: 'set_didsearch', payload: didSearch });
+};
+
 removeFilter.propTypes = {
   filter: PropTypes.string.isRequired,
 };
@@ -134,7 +163,17 @@ export const { Context, Provider } = createDataContext(
     addFilter,
     removeFilter,
     setSearchResults,
-    getNearbyPostos,
+    searchNearbyPostos,
+    setRadius,
+    setDidSearch,
   },
-  { query: '', cidade: '', filters: [], results: [] } // initial state
+  {
+    query: '',
+    cidade: '',
+    filters: [],
+    radius: 10,
+    results: [],
+    filteredResults: [],
+    didSearch: false,
+  } // initial state
 );

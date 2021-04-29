@@ -9,7 +9,7 @@ import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import FilterScreen from './src/screens/FilterScreen';
-// import ResultListScreen from './src/screens/ResultListScreen';
+import ResultListScreen from './src/screens/ResultListScreen';
 // import ResultDetailScreen from './src/screens/ResultDetailScreen';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
 import {
@@ -23,7 +23,7 @@ import { Provider as DataProvider } from './src/context/DataContext';
 import { Provider as SearchProvider } from './src/context/SearchContext';
 import { navigationRef, isReadyRef } from './src/navigationRef';
 import { Provider as PaperProvider, Button } from 'react-native-paper';
-import ExploreHeader from './src/components/ExploreHeader';
+import Header from './src/components/Header';
 
 const Drawer = createDrawerNavigator();
 const AuthStack = createStackNavigator();
@@ -33,20 +33,8 @@ const ResultStack = createStackNavigator();
 /**
  *
  */
-// const ResultsFlow = () => {
-//   return (
-//     <ResultStack.Navigator>
-//       <ResultStack.Screen
-//         name="ResultList"
-//         component={ResultListScreen}
-//         options={{ headerShown: false }}
-//       />
-//       <ResultStack.Screen name="ResultDetail" component={ResultDetailScreen} />
-//     </ResultStack.Navigator>
-//   );
-// };
 
-const explorarHeader = ({ scene, previous, navigation }) => {
+const makeHeader = ({ scene, previous, navigation }) => {
   const { options } = scene.descriptor;
   const title =
     options.headerTitle !== undefined
@@ -56,20 +44,33 @@ const explorarHeader = ({ scene, previous, navigation }) => {
       : scene.route.name;
 
   return (
-    <ExploreHeader
+    <Header
       title={title}
       backButton={title === 'Explorar' ? false : true}
-      filter={title === 'Explorar' ? true : false}
+      drawer={true}
       navigation={navigation}
     />
   );
 };
 
+const ResultsFlow = () => {
+  return (
+    <ResultStack.Navigator screenOptions={{ header: makeHeader }}>
+      <ResultStack.Screen
+        name="ResultList"
+        component={ResultListScreen}
+        options={{ headerShown: false }}
+      />
+      {/* <ResultStack.Screen name="ResultDetail" component={ResultDetailScreen} /> */}
+    </ResultStack.Navigator>
+  );
+};
 const ExplorarFlow = () => {
   return (
-    <ExplorarStack.Navigator screenOptions={{ header: explorarHeader }}>
+    <ExplorarStack.Navigator screenOptions={{ header: makeHeader }}>
       <ExplorarStack.Screen name="Explorar" component={HomeScreen} />
       <ExplorarStack.Screen name="Filtros" component={FilterScreen} />
+      <ExplorarStack.Screen name="ResultsFlow" component={ResultsFlow} />
     </ExplorarStack.Navigator>
   );
 };
