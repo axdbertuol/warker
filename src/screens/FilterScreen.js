@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   Divider,
@@ -15,20 +15,17 @@ import Spacer from '../components/Spacer';
 import useSearchPostos from '../hooks/useSearchPostos';
 /**
  * This screen will show the filters available for searching postos.
- *
+ * When submitted, it will navigate to ResultListScreen.
  */
 const FilterScreen = ({ navigation }) => {
-  // const [didClick, setDidClick] = useState(false);
   const {
-    state: { filters, results, radius, query },
+    state: { radius, query },
     setRadius,
     setDidSearch,
     setQuery,
   } = useContext(SearchContext);
-  // useEffect(() => {
-  //   console.log('Filters ', filters);
-  //   console.log('Radius ', radius);
-  // }, [filters]);
+
+  // useEffect function
   useSearchPostos();
 
   return (
@@ -66,24 +63,20 @@ const FilterScreen = ({ navigation }) => {
         minimumValue={0}
         maximumValue={15}
         value={radius}
-        // onValueChange={(value) => setDistance(value)}
-        // onSlidingStart={(value) => removeFilter('dist_' + value)}
         onSlidingComplete={(value) => setRadius(value)}
         step={1}
         minimumTrackTintColor="#000000"
         maximumTrackTintColor="#FFFFFF"
       />
-      <Caption>{radius}km</Caption>
+      <Caption style={{ textAlign: 'center' }}>Valor atual: {radius}km</Caption>
       <Spacer margin={5} />
 
       <Button
         mode="contained"
         onPress={() => {
           // search and store in results
-          // setDidClick(true);
           setDidSearch(true);
-          // console.log('Results:', results);
-          // navigation.navigate('ResultsFlow');
+          navigation.navigate('ResultList');
         }}
       >
         Ver Resultados

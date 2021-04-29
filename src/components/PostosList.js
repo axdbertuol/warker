@@ -1,19 +1,18 @@
-import React, { useContext, useEffect } from 'react';
-import { StyleSheet, FlatList } from 'react-native';
-import { Context as DataContext } from '../context/DataContext';
-import { Subheading, Caption, ActivityIndicator } from 'react-native-paper';
+import React, { useContext } from 'react';
+import { FlatList } from 'react-native';
+import { Context as SearchContext } from '../context/SearchContext';
+import { Subheading } from 'react-native-paper';
 
 import PostoItem from './PostoItem';
 
-const PostosList = ({
-  expandHeight = false,
-  title = 'Sua busca:',
-  horizontal = false,
-  filter,
-}) => {
+/**
+ * PostosList is a list of PostoItem. It can be made horizontal if needed.
+ *
+ */
+const PostosList = ({ horizontal = false }) => {
   const {
-    state: { searchResults, filteredPostos },
-  } = useContext(DataContext);
+    state: { results, query },
+  } = useContext(SearchContext);
 
   const onRenderItem = ({ item }) => (
     <>
@@ -23,20 +22,15 @@ const PostosList = ({
 
   return (
     <>
-      <Subheading style={{ textAlign: 'center' }}>{title}</Subheading>
+      <Subheading style={{ textAlign: 'center' }}>
+        Sua busca{query && ' por &ldquo;{query}&rdquo;'}:
+      </Subheading>
       <FlatList
         horizontal={horizontal}
-        data={filter ? filteredPostos[filter] : searchResults}
+        data={results}
         initialNumToRender={3}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(posto) => Date.now() + '-' + posto._id}
-        contentContainerStyle={
-          horizontal
-            ? {}
-            : expandHeight
-            ? { paddingBottom: 300 }
-            : { paddingBottom: 150 }
-        }
         renderItem={onRenderItem}
       />
     </>

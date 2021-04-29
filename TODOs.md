@@ -1,9 +1,15 @@
-#####
+# TODO
 
-TODO
+## Immediate
 
-#####
+- Rating
+  - Add to PostoItem and PostoSmallDetail
+- Account screen to Drawer
+- Change theme colors
+- Improve PostoItem and PostoSmallDetail layout
 
-- Filter screen, change back to drawer
-- Fix Explore screen
-- Make filters work
+## Future Features
+
+- Favorites
+- Result Detail with location information
+- Sort results

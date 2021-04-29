@@ -3,7 +3,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 // import AccountScreen from './src/screens/AccountScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
@@ -18,22 +17,20 @@ import {
 } from './src/context/AuthContext';
 import { Provider as LocationProvider } from './src/context/LocationContext';
 import { Provider as DataProvider } from './src/context/DataContext';
-// import { Provider as ModalProvider } from './src/context/ModalContext';
-// import { Provider as CidadesProvider } from './src/context/CidadesContext';
 import { Provider as SearchProvider } from './src/context/SearchContext';
 import { navigationRef, isReadyRef } from './src/navigationRef';
-import { Provider as PaperProvider, Button } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 import Header from './src/components/Header';
 
 const Drawer = createDrawerNavigator();
 const AuthStack = createStackNavigator();
 const ExplorarStack = createStackNavigator();
-const ResultStack = createStackNavigator();
 
 /**
  *
  */
 
+// eslint-disable-next-line no-unused-vars
 const makeHeader = ({ scene, previous, navigation }) => {
   const { options } = scene.descriptor;
   const title =
@@ -53,24 +50,17 @@ const makeHeader = ({ scene, previous, navigation }) => {
   );
 };
 
-const ResultsFlow = () => {
-  return (
-    <ResultStack.Navigator screenOptions={{ header: makeHeader }}>
-      <ResultStack.Screen
-        name="ResultList"
-        component={ResultListScreen}
-        options={{ headerShown: false }}
-      />
-      {/* <ResultStack.Screen name="ResultDetail" component={ResultDetailScreen} /> */}
-    </ResultStack.Navigator>
-  );
-};
 const ExplorarFlow = () => {
   return (
     <ExplorarStack.Navigator screenOptions={{ header: makeHeader }}>
       <ExplorarStack.Screen name="Explorar" component={HomeScreen} />
       <ExplorarStack.Screen name="Filtros" component={FilterScreen} />
-      <ExplorarStack.Screen name="ResultsFlow" component={ResultsFlow} />
+      <ExplorarStack.Screen
+        name="ResultList"
+        component={ResultListScreen}
+        options={{ headerTitle: 'Resultados' }}
+      />
+      {/* <ExplorarStack.Screen name="ResultDetail" component={ResultDetailScreen} /> */}
     </ExplorarStack.Navigator>
   );
 };

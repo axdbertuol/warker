@@ -1,19 +1,13 @@
-import React, { useContext, useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { Surface, Caption } from 'react-native-paper';
 
 // import usePhotos from '../hooks/usePhotos';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 
 const PostoItem = ({ posto, horizontal }) => {
   // const [image, errorMessage] = usePhotos(posto?.photo_reference, 400);
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   return (
     <Surface style={horizontal ? styles.surface : styles.surfaceVertical}>
