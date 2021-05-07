@@ -15,15 +15,13 @@ const PostosList = ({ horizontal = false }) => {
   } = useContext(SearchContext);
 
   const onRenderItem = ({ item }) => (
-    <>
-      <PostoItem posto={item} horizontal={horizontal} />
-    </>
+    <PostoItem posto={item} horizontal={horizontal} />
   );
 
   return (
     <>
       <Subheading style={{ textAlign: 'center' }}>
-        Sua busca{query && ' por &ldquo;{query}&rdquo;'}:
+        Sua busca{query && ` por "${query}"`}:
       </Subheading>
       <FlatList
         horizontal={horizontal}

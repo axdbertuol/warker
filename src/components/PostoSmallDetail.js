@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useContext } from 'react';
-import { StyleSheet, Dimensions, View } from 'react-native';
-import { Button, Card, Divider, Chip, Colors } from 'react-native-paper';
+import { StyleSheet, Dimensions, TouchableOpacity, View } from 'react-native';
+import { Surface, IconButton, Caption } from 'react-native-paper';
+
 import { Context as LocationContext } from '../context/LocationContext';
-import Spacer from './Spacer';
-import FuelChip from './FuelChip';
+import SmallCard from './SmallCard';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,94 +22,59 @@ const PostoSmallDetail = ({ posto, setEstouComSede }) => {
   } = useContext(LocationContext);
 
   return (
-    <>
-      <Card style={styles.container}>
-        <Card.Title title={posto.nome} titleStyle={{ fontSize: 11 }} />
-        <Card.Cover
-          style={styles.image}
-          source={{ uri: posto?.photo_url }}
-          resizeMode="cover"
-        />
-        <Spacer margin={5} />
-        <Divider />
-        <Spacer margin={5} />
-        {destination ? (
-          <Card.Content
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              marginBottom: 10,
-            }}
-          >
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Chip icon="alarm" mode="outlined" textStyle={styles.description}>
-                {Math.round(destination.duration?.val)}{' '}
-                {destination.duration?.unit}
-              </Chip>
-              <Chip
-                icon="car-convertible"
-                mode="outlined"
-                textStyle={styles.description}
-              >
-                {destination.distance?.val} {destination.distance?.unit}
-              </Chip>
-
-              <Chip
-                icon="tanker-truck"
-                mode="outlined"
-                textStyle={styles.description}
-              >
-                {posto.reservatorio}%
-              </Chip>
-            </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <FuelChip posto={posto} fuel={'diesel'} />
-              <FuelChip posto={posto} fuel={'gnv'} />
-              <FuelChip posto={posto} fuel={'etanol'} />
-            </View>
-          </Card.Content>
-        ) : null}
-        <Card.Actions style={styles.closeWindow}>
-          <Button
-            onPress={() => {
-              setEstouComSede(false);
-              resetDestination();
-            }}
-          >
-            x
-          </Button>
-        </Card.Actions>
-      </Card>
-    </>
+    <Surface style={styles.surface}>
+      <TouchableOpacity>
+        <SmallCard
+          imageSrc={{ uri: posto?.photo_url }}
+          rating={posto.rating}
+          resetDestination={resetDestination}
+          title={posto.nome}
+          setEstouComSede={setEstouComSede}
+        >
+          <View style={styles.smallInfo}>
+            <IconButton icon="alarm" size={15} />
+            <Caption>
+              {Math.round(destination.duration?.val)}{' '}
+              {destination.duration?.unit}
+            </Caption>
+          </View>
+          <View style={styles.smallInfo}>
+            <IconButton icon="car-convertible" size={15} />
+            <Caption>
+              {destination.distance?.val} {destination.distance?.unit}
+            </Caption>
+          </View>
+          <View style={styles.smallInfo}>
+            <IconButton icon="tanker-truck" size={15} />
+            <Caption>{posto.reservatorio}%</Caption>
+          </View>
+        </SmallCard>
+      </TouchableOpacity>
+    </Surface>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    width: (2 / 3) * width,
-    // height: 200,
+  surface: {
+    position: 'absolute',
+    bottom: 0,
+    padding: 8,
+    width: '100%',
+    alignItems: 'center',
+    zIndex: 2,
+    backgroundColor: 'transparent',
   },
-  image: {
-    borderRadius: 4,
-    // resizeMode: "center",
-    height: 80,
-    // width: 200,
-    paddingHorizontal: 5,
-  },
-  card: {
-    // paddingTop: 20,
-  },
+
   closeWindow: {
     position: 'absolute',
-    top: -15,
+    top: -20,
     right: -15,
+    zIndex: 5,
   },
-  description: {
-    // textAlign: "center",
-    // justifyContent: "flex-start",
-    fontSize: 10,
+  smallInfo: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

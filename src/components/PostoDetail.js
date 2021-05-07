@@ -28,25 +28,7 @@ const PostoDetail = ({ posto }) => {
     setDuration,
     setDistance,
   } = useContext(LocationContext);
-  // const [image, errorMessage] = usePhotos(posto?.photo_reference || null, 400);
 
-  //   const onReadyCallback = useCallback((result) => {
-  //     const distance = convert(result.distance).from('km').toBest();
-  //     const duration = convert(result.duration).from('min').toBest();
-
-  //     setDuration(duration);
-  //     setDistance(distance);
-
-  //     isReadyRef.current = true;
-  //     mapRef.current.fitToCoordinates(result.coordinates, {
-  //       edgePadding: {
-  //         right: width / 20,
-  //         bottom: height / 20,
-  //         left: width / 20,
-  //         top: height / 20,
-  //       },
-  //     });
-  //   }, []);
   if (!destination) {
     return <ActivityIndicator animating={true} />;
   }

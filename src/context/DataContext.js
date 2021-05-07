@@ -1,9 +1,9 @@
 /**
  * DataContext holds the essential data of the app, such as postos.
+ * Postos
  */
 
 /* eslint-disable no-undef */
-import sort from 'fast-sort';
 import PropTypes from 'prop-types';
 var _ = require('lodash');
 
@@ -17,8 +17,6 @@ import createDataContext from './createDataContext';
  * @param {object} action - The action object
  */
 const dataReducer = (state, action) => {
-  let sorted_arr = [];
-
   switch (action.type) {
     case 'add_postos':
       return {
@@ -28,57 +26,10 @@ const dataReducer = (state, action) => {
     case 'set_nearest':
       return { ...state, nearestPostos: action.payload };
 
-    case 'set_filter':
-      return { ...state, filter: action.payload };
-    case 'maior_reservatorio':
-      sorted_arr = sort([...state.postos]).by([
-        { desc: (posto) => posto.reservatorio },
-        { asc: (posto) => posto.nome },
-      ]);
-      return action.payload
-        ? {
-            ...state,
-            searchResults: sorted_arr,
-          }
-        : {
-            ...state,
-            filteredPostos: {
-              ...state.filteredPostos,
-              maior_reservatorio: sorted_arr,
-            },
-          };
-    case 'menor_reservatorio':
-      sorted_arr = sort([...state.postos]).by([
-        { asc: (posto) => posto.reservatorio },
-        { asc: (posto) => posto.nome },
-      ]);
-      return action.payload
-        ? {
-            ...state,
-            searchResults: sorted_arr,
-          }
-        : {
-            ...state,
-            filteredPostos: {
-              ...state.filteredPostos,
-              menor_reservatorio: sorted_arr,
-            },
-          };
-
     case 'reset_all':
       return {
         postos: [],
-        filteredPostos: {
-          maior_reservatorio: [],
-          menor_reservatorio: [],
-          rating: [],
-        },
         nearestPostos: [],
-      };
-    case 'reset_filter':
-      return {
-        ...state,
-        filter: '',
       };
     default:
       return state;
@@ -117,7 +68,7 @@ const updateNearbyPostos = (dispatch) => async (currentLocation) => {
         query: '',
         lat: coords.latitude,
         lng: coords.longitude,
-        radius: 10,
+        // radius: 10,
       },
     });
 
@@ -168,10 +119,6 @@ const setNearest = (dispatch) => (postos) => {
 setNearest.propTypes = {
   postos: PropTypes.array.isRequired,
 };
-// custom --> if it's predefined
-const applyFilter = (dispatch) => (filter, custom = false) => {
-  dispatch({ type: filter, payload: custom });
-};
 
 const resetAll = (dispatch) => () => {
   dispatch({ type: 'reset_all' });
@@ -181,21 +128,13 @@ export const { Context, Provider } = createDataContext(
   dataReducer,
   {
     addPostos,
-    applyFilter,
     setNearest,
     resetAll,
     fetchPostosFromDB,
     updateNearbyPostos,
-    // sendPostosToDB,
-    // parseGoogleApiDataToJS,
   },
   {
     postos: [], // list of all postos from db
-    sortedPostos: {
-      maior_reservatorio: [], // sort by largest reservatorio
-      menor_reservatorio: [], // sort by smallest reservatorio
-      rating: [], // sort by rating
-    },
     nearestPostos: [], // list of nearest postos from google
   } // initial state
 );

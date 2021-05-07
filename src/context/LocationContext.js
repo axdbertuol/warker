@@ -1,4 +1,3 @@
-import convert from 'convert-units';
 import createDataContext from './createDataContext';
 
 /**
@@ -61,7 +60,7 @@ const setDestination = (dispatch) => (destination) => {
  * @param {Number} duration - A number representing the ETA for the destination from the currentLocation
  */
 const setDuration = (dispatch) => (duration) => {
-  console.log(duration);
+  // console.log(duration);
   // let duration_obj = convert(duration).from('min').toBest();
   // console.log(duration_obj);
   dispatch({ type: 'set_duration', payload: { ...duration } });
@@ -72,7 +71,7 @@ const setDuration = (dispatch) => (duration) => {
  */
 const setDistance = (dispatch) => (distance) => {
   // let distance_obj = convert(distance).from('km').toBest();
-  console.log(distance);
+  // console.log(distance);
   //   distance_obj.val = distance % 1 != 0 ? distance.val.toFixed(1) : distance.val;
   dispatch({ type: 'set_distance', payload: { ...distance } });
 };

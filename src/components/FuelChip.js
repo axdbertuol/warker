@@ -14,14 +14,15 @@ const FuelChip = ({ posto, fuel }) => {
     <Chip
       mode="outlined"
       textStyle={{ fontSize: 10 }}
-      selected={posto.fuelTypes.includes(fuel)}
-      disabled={!posto.fuelTypes.includes(fuel)}
+      selected={posto.fuelTypes.includes(fuel.toLowerCase())}
+      disabled={!posto.fuelTypes.includes(fuel.toLowerCase())}
       // selectedColor={Colors.lightGreen700}
-      style={
-        posto.fuelTypes.includes(fuel)
-          ? { backgroundColor: Colors.green700 }
-          : { backgroundColor: Colors.red100 }
-      }
+      style={[
+        posto.fuelTypes.includes(fuel.toLowerCase())
+          ? { backgroundColor: Colors.lightGreen100 }
+          : { backgroundColor: Colors.red100 },
+        { marginRight: 5 },
+      ]}
     >
       {fuel.toUpperCase()}
     </Chip>

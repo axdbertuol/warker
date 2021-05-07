@@ -1,17 +1,30 @@
 import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Searchbar, IconButton } from 'react-native-paper';
+import { Searchbar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 import { Context as SearchContext } from '../context/SearchContext';
+import useSearchPostos from '../hooks/useSearchPostos';
+
+/**
+ * @desc
+ * A Searchbar with a Filter button on the right side that leads to
+ * the FilterScreen.
+ */
 
 const SearchbarFilter = () => {
   const {
-    state: { query, results },
+    state: { query },
     setQuery,
+    setDidSearch,
   } = useContext(SearchContext);
+
   const navigation = useNavigation();
+
+  // useEffect hook
+  useSearchPostos();
+
   return (
     <View style={styles.container}>
       <Searchbar
@@ -23,35 +36,24 @@ const SearchbarFilter = () => {
         onIconPress={() => navigation.navigate('Filtros')}
         returnKeyType="search"
         onSubmitEditing={({ nativeEvent: { text } }) => {
-          //   if (text) {
-          //     navigation.navigate('ResultListNavigator', {
-          //       screen: 'ResultList',
-          //       params: { searchFromHome: true },
-          //     });
-          //   }
+          if (text) {
+            setDidSearch(true);
+            navigation.navigate('ResultList');
+          }
         }}
       />
     </View>
   );
 };
 
-SearchbarFilter.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 30,
+    top: 10,
     width: '90%',
     alignSelf: 'center',
-    // paddingTop: 40,
     elevation: 3,
     zIndex: 3,
   },
-  //   filter: {
-  //     position: 'absolute',
-  //     top: 30,
-  //     right: 50,
-  //     zIndex: 4,
-
-  //   },
 });
 export default SearchbarFilter;

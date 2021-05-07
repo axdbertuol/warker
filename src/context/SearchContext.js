@@ -45,7 +45,6 @@ const searchReducer = (state, action) => {
         cidade: '',
         filters: [],
         results: [],
-        filteredResults: [],
       };
     default:
       return state;
@@ -173,7 +172,6 @@ export const { Context, Provider } = createDataContext(
     filters: [],
     radius: 10,
     results: [],
-    filteredResults: [],
     didSearch: false,
   } // initial state
 );

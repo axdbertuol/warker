@@ -1,17 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Dimensions, TouchableOpacity, View } from 'react-native';
 
-import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  Searchbar,
-  ActivityIndicator,
-  IconButton,
-  Colors,
-  Surface,
-  Button,
-} from 'react-native-paper';
+import { ActivityIndicator, Colors, Surface, Button } from 'react-native-paper';
 import { Context as LocationContext } from '../context/LocationContext';
-import { Context as SearchContext } from '../context/SearchContext';
+// import { Context as SearchContext } from '../context/SearchContext';
 import { Context as DataContext } from '../context/DataContext';
 import useLocation from '../hooks/useLocation';
 import useUpdatePostos from '../hooks/useUpdatePostos';
@@ -25,13 +17,12 @@ const HomeScreen = ({ navigation }) => {
   // CONTEXTS
   const {
     state: { currentLocation, destination },
-    setLocation,
     setDestination,
   } = useContext(LocationContext);
-  const {
-    state: { query, results },
-    setQuery,
-  } = useContext(SearchContext);
+  // const {
+  //   state: { query, results },
+  //   setQuery,
+  // } = useContext(SearchContext);
 
   const {
     state: { postos, nearestPostos },
@@ -41,11 +32,12 @@ const HomeScreen = ({ navigation }) => {
   const [estouComSede, setEstouComSede] = useState(false);
 
   // HOOKS with useEffect
+  // TODO: make
   const [errLocation] = useLocation(navigation.isFocused());
-  const [errUpdatePostos, postosDidSet] = useUpdatePostos();
+  useUpdatePostos();
 
   useEffect(() => {
-    if (estouComSede && !!nearestPostos) {
+    if (estouComSede && nearestPostos?.length > 0) {
       setDestination({
         ...destination,
         coords: {
@@ -58,20 +50,16 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {currentLocation && !!postos && !!nearestPostos ? (
+      {currentLocation && postos?.length > 0 && nearestPostos?.length > 0 ? (
         <>
           <Map style={styles.backgroundMap} />
           <SearchbarFilter />
 
           {!!destination && !!nearestPostos && estouComSede && (
-            <Surface style={styles.surface}>
-              <TouchableOpacity>
-                <PostoSmallDetail
-                  posto={nearestPostos[0]}
-                  setEstouComSede={setEstouComSede}
-                />
-              </TouchableOpacity>
-            </Surface>
+            <PostoSmallDetail
+              posto={nearestPostos[0]}
+              setEstouComSede={setEstouComSede}
+            />
           )}
 
           {!estouComSede && (
@@ -88,7 +76,14 @@ const HomeScreen = ({ navigation }) => {
           )}
         </>
       ) : (
-        <ActivityIndicator animating={true} />
+        <ActivityIndicator
+          animating={true}
+          style={{
+            position: 'absolute',
+            top: height / 2 - 30,
+            left: width / 2 - 10,
+          }}
+        />
       )}
     </View>
   );
@@ -123,15 +118,6 @@ const styles = StyleSheet.create({
     left: 100,
     elevation: 3,
     zIndex: 3,
-  },
-  surface: {
-    position: 'absolute',
-    bottom: 0,
-    padding: 8,
-    width: '100%',
-    alignItems: 'center',
-    zIndex: 2,
-    backgroundColor: 'transparent',
   },
 });
 export default HomeScreen;
