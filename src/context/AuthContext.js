@@ -31,6 +31,16 @@ const authReducer = (state, action) => {
 };
 
 /**
+ *
+ * @return
+ */
+const setUser = (dispatch) => async () => {
+  const response = await warkerApi.get('/api/user');
+  const user = response.data;
+  dispatch({ type: 'set_user', payload: user });
+};
+
+/**
  * It tries to log in using the token that the user might hold.
  * If it doesn't exist then it will redirect to the SigninScreen
  *
@@ -41,7 +51,10 @@ const tryLocalSignin = (dispatch) => async () => {
     const token = await AsyncStorage.getItem('token');
     // await AsyncStorage.removeItem('token');
     if (token) {
-      // TODO: get user info from backend
+      // get user info from backend
+      const response = await warkerApi.get('/api/user');
+      const user = response.data;
+      dispatch({ type: 'set_user', payload: user });
       dispatch({ type: 'signin', payload: token });
       navigator.navigate('Explorar');
     } else {
@@ -162,6 +175,7 @@ export const { Provider, Context } = createDataContext(
     clearErrorMessage,
     tryLocalSignin,
     addErrorMessage,
+    setUser,
   },
   { token: null, errorMessage: '', user: {} }
 );
