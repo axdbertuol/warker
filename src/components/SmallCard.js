@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Colors,
-  Subheading,
-  Caption,
-  Chip,
-  IconButton,
-} from 'react-native-paper';
+import { Colors, Subheading, IconButton } from 'react-native-paper';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 

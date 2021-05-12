@@ -29,7 +29,8 @@ export default () => {
   };
 
   useEffect(() => {
-    if (currentLocation && (query || radius || filters)) searchPostos();
+    if (didSearch && currentLocation && (query || radius || filters))
+      searchPostos();
     setDidSearch(false);
   }, [didSearch]);
 };

@@ -26,10 +26,16 @@ const PostosList = ({ horizontal = false }) => {
       <FlatList
         horizontal={horizontal}
         data={results}
-        initialNumToRender={3}
+        initialNumToRender={5}
+        updateCellsBatchingPeriod={100}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(posto) => Date.now() + '-' + posto._id}
         renderItem={onRenderItem}
+        getItemLayout={(data, index) => ({
+          length: 100,
+          offset: 100 * index,
+          index,
+        })}
       />
     </>
   );

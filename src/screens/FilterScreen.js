@@ -55,8 +55,8 @@ const FilterScreen = ({ navigation }) => {
       <Spacer margin={5} />
       <Paragraph>Distância da minha localização</Paragraph>
       <View style={styles.sliderTextContainer}>
-        <Caption>0km</Caption>
-        <Caption>15km</Caption>
+        <Caption style={styles.smallTxt}>0km</Caption>
+        <Caption style={styles.smallTxt}>15km</Caption>
       </View>
       <Slider
         style={{ width: 300, height: 20 }}
@@ -68,7 +68,9 @@ const FilterScreen = ({ navigation }) => {
         minimumTrackTintColor="#000000"
         maximumTrackTintColor="#FFFFFF"
       />
-      <Caption style={{ textAlign: 'center' }}>Valor atual: {radius}km</Caption>
+      <Caption style={[styles.smallTxt, { textAlign: 'center' }]}>
+        Valor atual: {radius}km
+      </Caption>
       <Spacer margin={5} />
 
       <Button
@@ -94,6 +96,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: 300,
     justifyContent: 'space-between',
+  },
+  smallTxt: {
+    fontSize: 9,
   },
 });
 export default FilterScreen;

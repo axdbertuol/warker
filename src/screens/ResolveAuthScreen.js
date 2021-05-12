@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Context as AuthContext } from '../context/AuthContext';
 import { ActivityIndicator } from 'react-native-paper';
 import { mapRef, isReadyRef } from '../mapRef';
+import { nav } from '../navigationRef';
 
 /**
  * A blank screen that will try to log in user with token

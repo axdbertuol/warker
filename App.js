@@ -3,7 +3,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-// import AccountScreen from './src/screens/AccountScreen';
+import AccountScreen from './src/screens/AccountScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import HomeScreen from './src/screens/HomeScreen';
@@ -19,15 +19,27 @@ import { Provider as LocationProvider } from './src/context/LocationContext';
 import { Provider as DataProvider } from './src/context/DataContext';
 import { Provider as SearchProvider } from './src/context/SearchContext';
 import { navigationRef, isReadyRef } from './src/navigationRef';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import Header from './src/components/Header';
 
 const Drawer = createDrawerNavigator();
 const AuthStack = createStackNavigator();
 const ExplorarStack = createStackNavigator();
 
+const theme = {
+  ...DefaultTheme,
+  // roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#ee9b00',
+    accent: '#f1c40f',
+    secondary: '#e9d8a6',
+    text: '#14213d',
+  },
+};
+
 /**
- *
+ * A function that creates the header.
  */
 
 // eslint-disable-next-line no-unused-vars
@@ -43,7 +55,7 @@ const makeHeader = ({ scene, previous, navigation }) => {
   return (
     <Header
       title={title}
-      backButton={title === 'Explorar' ? false : true}
+      backButton={title === 'Explorar' || title === 'Account' ? false : true}
       drawer={true}
       navigation={navigation}
     />
@@ -97,8 +109,13 @@ const AuthFlow = () => {
  */
 const MainFlow = () => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator screenOptions={{ header: makeHeader }}>
       <Drawer.Screen name="Explorar" component={ExplorarFlow} />
+      <Drawer.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{ headerShown: true }}
+      />
     </Drawer.Navigator>
   );
 };
@@ -144,7 +161,7 @@ const LocalProviders = ({ children }) => (
  */
 const ThirdPartyProviders = ({ children }) => (
   <SafeAreaProvider>
-    <PaperProvider>{children}</PaperProvider>
+    <PaperProvider theme={theme}>{children}</PaperProvider>
   </SafeAreaProvider>
 );
 

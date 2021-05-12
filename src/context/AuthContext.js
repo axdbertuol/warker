@@ -13,6 +13,8 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case 'add_error':
       return { ...state, errorMessage: action.payload };
+    case 'set_user':
+      return { ...state, user: action.payload };
     case 'signup':
     case 'signin':
       return {
@@ -37,9 +39,11 @@ const authReducer = (state, action) => {
 const tryLocalSignin = (dispatch) => async () => {
   try {
     const token = await AsyncStorage.getItem('token');
+    // await AsyncStorage.removeItem('token');
     if (token) {
+      // TODO: get user info from backend
       dispatch({ type: 'signin', payload: token });
-      navigator.navigate('Home');
+      navigator.navigate('Explorar');
     } else {
       navigator.navigate('Signin');
     }
@@ -81,10 +85,13 @@ const signup = (dispatch) => async ({ email, password }) => {
       password: password,
     });
     const token = response.data['token'];
+    const user = response.data['user'];
 
     // store token in storage and state
     await AsyncStorage.setItem('token', token);
+    dispatch({ type: 'set_user', payload: user });
     dispatch({ type: 'signup', payload: token });
+    navigator.navigate('Signin');
   } catch (error) {
     dispatch({
       type: 'add_error',
@@ -111,10 +118,13 @@ const signin = (dispatch) => async ({ email, password }) => {
       password: password,
     });
     const token = response.data['token'];
+    const user = response.data['user'];
 
     // store token in storage and state
     await AsyncStorage.setItem('token', token);
+    dispatch({ type: 'set_user', payload: user });
     dispatch({ type: 'signin', payload: token });
+    navigator.navigate('Explorar');
   } catch (error) {
     dispatch({
       type: 'add_error',
@@ -153,5 +163,5 @@ export const { Provider, Context } = createDataContext(
     tryLocalSignin,
     addErrorMessage,
   },
-  { token: null, errorMessage: '' }
+  { token: null, errorMessage: '', user: {} }
 );
