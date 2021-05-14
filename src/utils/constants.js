@@ -1,4 +1,6 @@
-export const GOOGLE_MAPS_KEY = 'AIzaSyDiNGubUWbZROxIQJEIhF2Edf6AlMQaOpI';
+export const GOOGLE_MAPS_KEY =
+  // eslint-disable-next-line no-undef
+  (process && process.env && process.env.GOOGLE_MAPS_KEY) || null;
 export const types = {
   filtros: {
     MAIOR_RESERVATORIO: 'maior_reservatorio',

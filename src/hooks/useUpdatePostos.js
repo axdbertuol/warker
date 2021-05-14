@@ -6,22 +6,13 @@ import { useEffect, useContext } from 'react';
 
 import { Context as LocationContext } from '../context/LocationContext';
 import { Context as DataContext } from '../context/DataContext';
-// import { Context as SearchContext } from '../context/SearchContext';
 
 export default () => {
   const {
     state: { currentLocation },
   } = useContext(LocationContext);
 
-  const {
-    // state: { postos },
-    updateNearbyPostos,
-    fetchPostosFromDB,
-  } = useContext(DataContext);
-
-  // const {
-  //   state: { results },
-  // } = useContext(SearchContext);
+  const { updateNearbyPostos, fetchPostosFromDB } = useContext(DataContext);
 
   const updatePostos = () => {
     updateNearbyPostos(currentLocation);

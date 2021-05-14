@@ -19,10 +19,6 @@ const HomeScreen = ({ navigation }) => {
     state: { currentLocation, destination },
     setDestination,
   } = useContext(LocationContext);
-  // const {
-  //   state: { query, results },
-  //   setQuery,
-  // } = useContext(SearchContext);
 
   const {
     state: { postos, nearestPostos },
